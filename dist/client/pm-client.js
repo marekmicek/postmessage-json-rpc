@@ -100,8 +100,11 @@ var PostMessageRpcClient = (function () {
                         method: method,
                         params: params
                     };
-                    var origin = target.location.origin;
-                    if (origin === 'null' || origin === 'about://' /* holy crap, IE! */) origin = null;
+                    var origin;
+                    try {
+                        origin = target.location.origin;
+                        if (origin === 'null' || origin === 'about://' /* holy crap, IE! */) origin = null;
+                    } catch(err) {}
                     target.postMessage(message, origin || '*');
                     if (typeof id === 'undefined') resolve();
                 } catch (e) {
