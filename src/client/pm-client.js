@@ -68,9 +68,12 @@ default class Client {
                     method,
                     params
                 };
-                let origin = target.location.origin;
-                if (origin === 'null' || origin === 'about://' /* holy crap, IE! */)
-                    origin = null;
+                let origin
+                try {
+                    origin = target.location.origin;
+                    if (origin === 'null' || origin === 'about://' /* holy crap, IE! */)
+                        origin = null;
+                } catch (err) {}
                 target.postMessage(message, origin || '*');
                 if (typeof id === 'undefined')
                     resolve();
